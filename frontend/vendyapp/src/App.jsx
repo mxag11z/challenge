@@ -176,16 +176,6 @@ const App = () => {
     <div className="app">
       <header className="header">
         <h1>Gestión de Inventario Textil</h1>
-        <div className="stats">
-          <div className="stat-item">
-            <span className="stat-label">Total Rollos:</span>
-            <span className="stat-value">{stats.total_rolls || 0}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Total Metros:</span>
-            <span className="stat-value">{stats.total_meters || 0}</span>
-          </div>
-        </div>
       </header>
 
       {message.text && (
@@ -239,7 +229,7 @@ const App = () => {
                       Metros Disponibles {sortConfig.order_by === 'current_length' && (sortConfig.order_dir === 'ASC' ? '↑' : '↓')}
                     </th>
                     <th>Longitud Original</th>
-                    <th>% Restante</th>
+                    
                     <th onClick={() => handleSort('entry_date')} className="sortable">
                       Fecha Ingreso {sortConfig.order_by === 'entry_date' && (sortConfig.order_dir === 'ASC' ? '↑' : '↓')}
                     </th>
@@ -257,21 +247,12 @@ const App = () => {
                     rolls.map(roll => (
                       <tr key={roll.id} className={roll.current_length <= 5 ? 'low-stock' : ''}>
                         <td>{roll.fabric_type}</td>
-                        <td>
-                          <span className="color-indicator" style={{backgroundColor: roll.color.toLowerCase()}}></span>
+                        <td >
                           {roll.color}
                         </td>
                         <td className="number">{parseFloat(roll.current_length).toFixed(2)} m</td>
                         <td className="number">{parseFloat(roll.original_length).toFixed(2)} m</td>
-                        <td className="number">
-                          <div className="progress-bar">
-                            <div 
-                              className="progress-fill" 
-                              style={{width: `${roll.stock_percentage}%`}}
-                            ></div>
-                            <span className="progress-text">{roll.stock_percentage}%</span>
-                          </div>
-                        </td>
+                    
                         <td>{new Date(roll.entry_date).toLocaleDateString()}</td>
                         <td>
                           <span className={`status-badge ${roll.current_length <= 5 ? 'low' : roll.current_length <= 15 ? 'medium' : 'good'}`}>
